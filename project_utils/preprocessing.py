@@ -63,7 +63,7 @@ def expand2square(pil_img, background_color):
 
 
 
-def process(file_list, image_idx, metadata_df, thumbnail_size=(2000, 2000), source_folder_name="Breast1__he", padding_color=None, pad_images=False, raw_repo_id=None):
+def process(file_list, image_idx, metadata_df, thumbnail_size=(2000, 2000), source_folder_name="Breast1__he", pad_images=False, raw_repo_id=None, image_padding_color="white", mask_padding_color="black"):
     for allow_pattern, image_path, xml_path in file_list:
         path = hfh.snapshot_download(
             repo_id=raw_repo_id, 
@@ -88,7 +88,7 @@ def process(file_list, image_idx, metadata_df, thumbnail_size=(2000, 2000), sour
 
         thumbnail = slide_file.get_thumbnail(thumbnail_size)
         if pad_images:
-            thumbnail = expand2square(thumbnail, padding_color)
+            thumbnail = expand2square(thumbnail, image_padding_color)
         thumbnail.save(f"images/{image_idx}.png")
 
         image_shrinking_factor = min(thumbnail.size) / min(slide_file.dimensions)
@@ -100,7 +100,7 @@ def process(file_list, image_idx, metadata_df, thumbnail_size=(2000, 2000), sour
                 image_shrinking_factor
             )
             if pad_images:
-                mask = expand2square(mask, padding_color)
+                mask = expand2square(mask, mask_padding_color)
             mask.save(f"masks/{image_idx}.png")
             
             
