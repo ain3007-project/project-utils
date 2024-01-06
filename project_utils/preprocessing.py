@@ -87,16 +87,18 @@ def process(file_list, image_idx, metadata_df, thumbnail_size=(2000, 2000), sour
 
 
         thumbnail = slide_file.get_thumbnail(thumbnail_size)
+        thumbnail_size = thumbnail.size
         if pad_images:
             thumbnail = expand2square(thumbnail, image_padding_color)
+        
         thumbnail.save(f"images/{image_idx}.png")
 
-        image_shrinking_factor = min(thumbnail.size) / min(slide_file.dimensions)
+        image_shrinking_factor = min(thumbnail_size) / min(slide_file.dimensions)
         
         if xml_path is not None:
             mask = get_mask_from_xml(
                 os.path.join(path, xml_path),
-                thumbnail.size,
+                thumbnail_size,
                 image_shrinking_factor
             )
             if pad_images:
