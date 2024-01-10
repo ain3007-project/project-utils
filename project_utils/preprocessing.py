@@ -98,7 +98,7 @@ def process(file_list, image_idx, metadata_df, thumbnail_size=(2000, 2000), sour
         if xml_path is not None:
             mask = get_mask_from_xml(
                 os.path.join(path, xml_path),
-                thumbnail_size,
+                original_thumbnail_size,
                 image_shrinking_factor
             )
             if pad_images:
